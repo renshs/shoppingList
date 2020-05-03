@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block part %}
+{% if not current_user.is_authenticated %}
+<h1>Войдите в учетную запись</h1>
+{% else %}
+{% for item in purchases%}
+{%if item.user == current_user%}
+<div class="col-md6 border rounded">
+    <h2>{{item.title}}</h2>
+    <div>
+        {{item.content}}
+    </div>
+    <div>
+        Автор - {{item.user.name}}, Дата написания - {{item.created_date}}, Количество - {{item.count}}
+    </div>
+</div>
+
+<div>
+    <a href="/purchases/{{ item.id }}" class="btn btn-warning">Изменить</a>
+    <a href="/purchases_delete/{{ item.id }}" class="btn btn-danger">Удалить</a>
+</div>
+{%endif%}
+{% endfor %}
+{% endif %}
+{% endblock %}
