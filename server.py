@@ -8,6 +8,7 @@ from wtforms.validators import DataRequired
 
 import purchases_resources
 import purchases_api
+import users_resources
 
 from data import db_session
 from data.users import User, Purchases
@@ -45,7 +46,6 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
     name = StringField('Имя пользователя', validators=[DataRequired()])
-    about = TextAreaField("Немного о себе")
     submit = SubmitField('Войти')
 
 
@@ -65,7 +65,6 @@ def reqister():
         user = User(
             name=form.name.data,
             email=form.email.data,
-            about=form.about.data
         )
         user.set_password(form.password.data)
         session.add(user)
@@ -84,6 +83,7 @@ def load_user(user_id):
 def index():
     session = db_session.create_session()
     purchases = session.query(Purchases)
+    print(request.path)
     return render_template("index.html", purchases=purchases)
 
 
@@ -146,6 +146,7 @@ def edit_purchases(id):
             return redirect('/')
         else:
             abort(404)
+    print(request.path[:-1])
     return render_template('purchases.html', title='Редактирование покупки', form=form)
 
 
@@ -179,12 +180,14 @@ def main():
 if __name__ == '__main__':
     # adding purchases
     # для списка объектов
-    api.add_resource(purchases_resources.PurchasesListResource, '/api/v2/purchases')
+    api.add_resource(purchases_resources.PurchasesListResource, '/api/purchases')
     #
     # # для одного объекта
-    api.add_resource(purchases_resources.PurchasesResource, '/api/v2/purchases/<int:purchases_id>')
-
+    api.add_resource(purchases_resources.PurchasesResource, '/api/purchases/<int:purchases_id>')
     # adding uers
-
+    api.add_resource(users_resources.UsersListResource, '/api/users')
+    #
+    # # для одного объекта
+    api.add_resource(users_resources.UsersResource, '/api/users/<int:users_id>')
 
     main()

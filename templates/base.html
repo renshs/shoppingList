@@ -6,19 +6,17 @@
     <title>SList</title>
 </head>
 <body>
-{% if current_user.is_authenticated %}
+{% if current_user.is_authenticated and request.path[:-1] != '/purchases/'%}
     <a class="navbar-brand" href="/logout">Выйти</a>
     <a class="navbar-brand">{{ current_user.name }}</a>
+    <a href="purchases" class="btn btn-secondary">Добавить предмет</a>
+    {% block part%}
+    {% endblock %}
 {% else %}
     <p>
         <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
         <a class="btn btn-success" href="/login">Войти</a>
     </p>
-{% endif %}
-{% if current_user.is_authenticated %}
-    <a href="purchases" class="btn btn-secondary">Добавить предмет</a>
-    {% block part%}
-    {% endblock %}
 {% endif %}
 {% block content%}
 {% endblock %}

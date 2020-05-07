@@ -17,6 +17,7 @@ parser.add_argument('title', required=True)
 parser.add_argument('content', required=True)
 parser.add_argument('count', required=True)
 parser.add_argument('user_id', required=True, type=int)
+parser.add_argument('id', required=True, type=int)
 
 
 class PurchasesResource(Resource):
@@ -41,7 +42,7 @@ class PurchasesListResource(Resource):
         session = db_session.create_session()
         purchases = session.query(Purchases).all()
         return jsonify({'purchases': [item.to_dict(
-            only=('title', 'content', 'count', 'user_id')) for item in purchases]})
+            only=('id', 'title', 'content', 'count', 'user_id',)) for item in purchases]})
 
     def post(self):
         args = parser.parse_args()
