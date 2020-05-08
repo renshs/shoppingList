@@ -7,7 +7,6 @@ from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
 
 import purchases_resources
-import purchases_api
 import users_resources
 
 from data import db_session
