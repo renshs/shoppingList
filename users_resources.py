@@ -15,6 +15,7 @@ def abort_if_users_not_found(users_id):
 parser = reqparse.RequestParser()
 parser.add_argument('name', required=True)
 parser.add_argument('email', required=True)
+parser.add_argument('hashed_password', required=True)
 parser.add_argument('id', required=True, type=int)
 
 
@@ -40,4 +41,4 @@ class UsersListResource(Resource):
         session = db_session.create_session()
         users = session.query(User).all()
         return jsonify({'users': [item.to_dict(
-            only=('name', 'email', 'id')) for item in users]})
+            only=('name', 'hashed_password', 'email', 'id')) for item in users]})
