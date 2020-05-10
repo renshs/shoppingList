@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from flask_ngrok import run_with_ngrok
 from flask_wtf import FlaskForm
 from werkzeug.utils import redirect
 from wtforms import PasswordField, BooleanField, SubmitField, StringField, TextAreaField, IntegerField
@@ -16,7 +15,6 @@ from data.users import User, Purchases
 from flask_restful import reqparse, abort, Api, Resource
 
 app = Flask(__name__)
-run_with_ngrok(app)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 api = Api(app)
